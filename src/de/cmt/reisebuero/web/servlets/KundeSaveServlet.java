@@ -20,13 +20,13 @@ import de.cmt.reisebuero.web.helper.DbHelper;
  * Servlet implementation class KundeServlet
  */
 @WebServlet({"/KundeServlet", "/admin/kunde_save"})
-public class KundeServlet extends HttpServlet {
+public class KundeSaveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public KundeServlet() {
+    public KundeSaveServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
