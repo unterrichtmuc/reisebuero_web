@@ -21,42 +21,50 @@ import de.cmt.reisebuero.web.helper.DbHelper;
 /**
  * Servlet implementation class KundeServlet
  */
-@WebServlet({"/ReiseServlet", "/admin/reise_save"})
+@WebServlet({ "/ReiseServlet", "/admin/reise_save" })
 public class ReiseSaveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ReiseSaveServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+	public ReiseSaveServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
-		
+
 		try {
 			Reise r = new Reise();
-			
+
 			r.setTitel(request.getParameter("titel"));
 			r.setBeschreibung(request.getParameter("beschreibung"));
 			r.setBeginn(sf.parse(request.getParameter("beginn")));
-			r.setDauer(Integer.valueOf(request.getParameter("dauer")) );
+			r.setDauer(Integer.valueOf(request.getParameter("dauer")));
 			r.setArt(Integer.valueOf(request.getParameter("art")));
 			r.setPreis(Double.valueOf(request.getParameter("preis")));
 			r.setLand(request.getParameter("land"));
 			r.setState(Short.valueOf(request.getParameter("state")));
+
+			String id = request.getParameter("id");
 			
+			System.out.println("ID " + id);
+
 			Connection con = DbHelper.get();
-		
-			ReiseSqlHelper.create(con, r);
-			
+
+			if (id.equals("0")) {
+				ReiseSqlHelper.create(con, r);
+			} else {
+				r.setId(Integer.valueOf(id));
+				ReiseSqlHelper.update(con, r);
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,15 +75,17 @@ public class ReiseSaveServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		response.sendRedirect("reisen");
 				
-		
-		response.getWriter().append("Reise speichern " + request.getParameter("titel")).append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

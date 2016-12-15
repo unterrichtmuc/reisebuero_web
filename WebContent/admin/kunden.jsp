@@ -58,7 +58,6 @@
 				out.println("</td>");
 
 				out.println("</tr>");
-
 			}
 		%>
 	</table>
